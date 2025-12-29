@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SteelSafe AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- ================= HEADER / BRANDING ================= -->
+<header class="top-bar">
+    <h1>SteelSafe AI</h1>
+    <p>Enterprise Industrial Defect Detection Platform</p>
+</header>
+
+<!-- ================= ROLE NAV ================= -->
+<nav class="role-nav">
+    <a href="/?role=operator">Operator</a>
+    <a href="/?role=supervisor">Supervisor</a>
+</nav>
+
+<!-- ================= PRODUCT INSPECTION ================= -->
+<section class="card inspect">
+
+    <h2>
+        🛠 Product Inspection
+        <span class="tooltip" title="Upload one or multiple product images for inspection">ⓘ</span>
+    </h2>
+
+    {% if role == "operator" %}
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Upload Image(s)</label>
+        <input type="file" name="images" multiple required>
+
+        <label>
+            Sensitivity Threshold
+            <span class="tooltip" title="Lower = more sensitive to defects">ⓘ</span>
+        </label>
+        <input type="range" min="0.2" max="0.5" step="0.05"
+               name="threshold" value="{{ threshold | default(0.3) }}">
+        <p>Current Threshold: {{ threshold | default(0.3) }}</p>
+
+        <button type="submit">Run AI Analysis</button>
+    </form>
+    {% endif %}
+
+    {% for w in warnings %}
+        <p class="warning">{{ w }}</p>
+    {% endfor %}
+     
+     {% if role == "supervisor" %}
+    <p><strong>Supervisor View – Monitoring Inspection Operations</strong></p>
+
+    {% if last_inspection %}
+        <p>
+            <strong>Last Inspected File:</strong> {{ last_inspection.file }}<br>
+            <strong>Result:</strong> {{ last_inspection.result }} ({{ last_inspection.confidence }}%)
+        </p>
+    {% else %}
+        <p>No inspections performed yet.</p>
+    {% endif %}
+{% endif %}
+
+</section>
+
+<!-- ================= RESULTS ================= -->
+{% if results %}
+<section class="card">
+    <h2>Inspection Results</h2>
+    <ul>
+        {% for r in results %}
+        <li>
+            <strong>{{ r.file }}</strong> →
+            {{ r.status }} ({{ r.confidence }}%)
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% if report_ready %}
+        <a class="pdf-link" href="/download_report">
+            📄 Download Inspection Report (PDF)
+        </a>
+    {% endif %}
+</section>
+{% endif %}
+
+<!-- ================= STATISTICS + GRAPH ================= -->
+<section class="card stats">
+    <h2>📊 Inspection Statistics</h2>
+
+    <p>Total Inspections: {{ stats.total }}</p>
+    <p>Defective Products: {{ stats.defect }}</p>
+    <p>Normal Products: {{ stats.normal }}</p>
+
+    <canvas id="statsChart"></canvas>
+</section>
+
+<!-- ================= HISTORY ================= -->
+<section class="card history">
+    <h2>🕒 Inspection History</h2>
+    <ul>
+        {% for h in history %}
+        <li>
+            {{ h.time }} |
+            {{ h.file }} |
+            {{ h.result }} ({{ h.confidence }}%)
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<!-- ================= HEATMAP ================= -->
+{% if heatmap %}
+<section class="card">
+    <h2>🔥 Defect Heatmap (Explainable AI)</h2>
+    <img src="{{ heatmap }}" class="heatmap">
+    <p class="note">
+        Highlighted regions show where the AI focused during defect detection.
+    </p>
+</section>
+{% endif %}
+
+<!-- ================= SYSTEM ARCHITECTURE ================= -->
+<section class="card">
+    <h2>🏗 System Architecture</h2>
+    <p>
+        Image → Preprocessing → CNN Model → Flask API → Web Dashboard
+    </p>
+</section>
+
+<!-- ================= FUTURE SCOPE ================= -->
+<section class="card">
+    <h2>🚀 Future Scope</h2>
+    <ul>
+        <li>IoT camera integration</li>
+        <li>Real-time conveyor belt inspection</li>
+        <li>Multi-class defect classification</li>
+        <li>Edge AI deployment</li>
+        <li>Cloud-based analytics dashboard</li>
+    </ul>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    © 2025 | SteelSafe AI – Final Year Major Project
+</footer>
+
+<!-- ================= GRAPH SCRIPT ================= -->
+<script>
+const ctx = document.getElementById("statsChart");
+
+new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: ["Defect", "Normal"],
+        datasets: [{
+            label: "Last Inspection",
+            data: [
+                {{ last_graph.defect | default(0) }},
+                {{ last_graph.normal | default(0) }}
+            ],
+            backgroundColor: ["#c0392b", "#27ae60"]
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: { beginAtZero: true, ticks: { precision: 0 } }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+/* ===============================
+   GLOBAL RESET
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Times New Roman", Georgia, serif;
+}
+
+/* ===============================
+   BODY
+================================ */
+body {
+    margin: 0;
+    font-family: "Times New Roman", serif;
+    background:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url("/static/images/steel_bg.jpg") center / cover no-repeat fixed;
+    color: #1f2933;
+}
+
+/* ===============================
+   HEADER / BRANDING
+================================ */
+header,
+.top-bar {
+    background: #1c2b36;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+header img,
+.logo {
+    height: 50px;
+    margin-bottom: 8px;
+}
+
+header h1,
+.top-bar h1 {
+    font-size: 30px;
+    margin-bottom: 6px;
+}
+
+header p,
+.top-bar p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* ===============================
+   NAVIGATION (ROLE SWITCH)
+================================ */
+nav,
+.role-nav {
+    background: #f9a826;
+    text-align: center;
+    padding: 12px;
+}
+
+nav a,
+.role-nav a {
+    color: #1c2b36;
+    margin: 0 18px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* ===============================
+   CARD BASE
+================================ */
+.card {
+    background: #ffffff;
+    margin: 35px auto;
+    padding: 25px;
+    width: 85%;
+    max-width: 1100px;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+    animation: fadeIn 0.6s ease;
+}
+
+/* ===============================
+   SECTION HEADINGS
+================================ */
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    border-left: 6px solid #f9a826;
+    padding-left: 14px;
+    color: #1c2b36;
+}
+
+/* ===============================
+   FORMS
+================================ */
+form {
+    margin-top: 15px;
+}
+
+input[type="file"] {
+    margin: 12px 0;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin: 8px 0;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+/* ===============================
+   BUTTON
+================================ */
+button {
+    background: #1c2b36;
+    color: white;
+    padding: 10px 28px;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #f9a826;
+    color: #1c2b36;
+}
+
+/* ===============================
+   RESULT BOX
+================================ */
+.result {
+    margin-top: 18px;
+    padding: 14px;
+    font-weight: bold;
+    font-size: 17px;
+    border-radius: 8px;
+}
+
+.result.defect {
+    background: #fde8e8;
+    color: #b42318;
+    border-left: 6px solid #b42318;
+}
+
+.result.normal {
+    background: #e6f7ec;
+    color: #067647;
+    border-left: 6px solid #067647;
+}
+
+/* ===============================
+   WARNING MESSAGES
+================================ */
+.warning {
+    color: #d35400;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* ===============================
+   CHART SECTION
+================================ */
+canvas {
+    max-width: 420px;
+    margin: 20px auto;
+    display: block;
+}
+
+/* ===============================
+   INSPECTION HISTORY
+================================ */
+.history ul,
+.card ul {
+    margin-left: 20px;
+}
+
+.card li {
+    margin-bottom: 8px;
+}
+
+/* ===============================
+   HEATMAP (EXPLAINABLE AI)
+================================ */
+.heatmap {
+    width: 320px;
+    border: 2px solid #c0392b;
+    border-radius: 6px;
+    display: block;
+    margin: 15px auto;
+}
+
+.note {
+    font-size: 14px;
+    margin-top: 8px;
+    color: #555;
+    text-align: center;
+}
+
+/* ===============================
+   TOOLTIP ICON
+================================ */
+.tooltip {
+    cursor: help;
+    margin-left: 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ===============================
+   PDF LINK
+================================ */
+.pdf-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #1c2b36;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.pdf-link:hover {
+    text-decoration: underline;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+footer {
+    background: #1c2b36;
+    color: #cbd2d9;
+    text-align: center;
+    padding: 18px;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+@media (max-width: 768px) {
+    .card {
+        width: 95%;
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    nav a {
+        display: inline-block;
+        margin: 8px;
+    }
+
+    canvas {
+        max-width: 100%;
+    }
+
+    .heatmap {
+        width: 100%;
+    }
+}
+.card {
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.card h2 {
+    background: linear-gradient(90deg, #f9a826, #ffd36a);
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin: -20px -20px 20px -20px;
+    color: #1c2b36;
+}
+
+/* Result emphasis */
+.result {
+    background: #eef2f5;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+/* Warnings */
+.warning {
+    background: #fff3cd;
+    border-left: 5px solid #f9a826;
+    padding: 8px;
+    margin: 8px 0;
+}
+
